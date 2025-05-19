@@ -57,13 +57,13 @@ app.post("/subscribe", async (req, res) => {
     const { email, city, frequency } = req.body;
 
     if (!email || !city || !frequency) {
-        return res.status(400).json({ message: "Missing fields." });
+        return res.status(400).json({ message: "Invalid input" });
     }
 
-    /*   const existing = await Subscription.findOne({ email });
+    const existing = await Subscription.findOne({ email });
     if (existing) {
-        return res.status(409).json({ message: "Email already subscribed." });
-    } */
+        return res.status(409).json({ message: "Email already subscribed" });
+    }
 
     const token = uuidv4();
 
@@ -87,7 +87,7 @@ app.post("/subscribe", async (req, res) => {
         } else {
             console.log("Message sent: %s", info.messageId);
             res.status(200).json({
-                message: "Subscription created. Check your email.",
+                message: "Subscription successful. Confirmation email sent.",
             });
         }
     });
@@ -131,4 +131,4 @@ app.get("/unsubscribe/:token", (req, res) => {
             console.error(err);
             res.status(500).send("Server error");
         });
-})
+});
